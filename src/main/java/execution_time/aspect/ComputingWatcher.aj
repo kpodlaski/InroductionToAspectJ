@@ -8,8 +8,6 @@ public aspect ComputingWatcher {
     pointcut computation(double prec, double ... data)
             : execution(* StepWiseAlgorithm.doCalculation(..) ) && args( prec, data);
 
-    pointcut computationStep(double ... data)
-            : execution(* StepWiseAlgotithm.nextStep(..)) && args(data);
 
     double around(double prec, double[] data) : computation(prec, data){
         steps = 0;
@@ -26,10 +24,6 @@ public aspect ComputingWatcher {
         return result;
     }
 
-    void around (double[] data) : computationStep(data){
-        steps+=1;
-        proceed(data);
-    }
 
     public class TimeCounting implements Runnable
     {
